@@ -100,7 +100,7 @@ end"
           # assume Postgres 9.1+ since previous versions are EOL
           if postgresql? && type.to_s == "text"
             found_column = connection.columns(table).find { |c| c.name.to_s == column.to_s }
-            safe = found_column && found_column.type == :string
+            safe = found_column && [:string, :text].include?(found_column.type)
           end
           raise_error :change_column unless safe
         when :create_table
